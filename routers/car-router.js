@@ -12,26 +12,26 @@ router.get("/cars", async (req, res, next) => {
   }
 });
 
-router.get("/cars/:id", async (req, res, next) => {
-  try {
-    const { id } = req.params;
-    const car = await db("cars").where({ id }).first();
+// router.get("/cars/:id", async (req, res, next) => {
+//   try {
+//     const { id } = req.params;
+//     const car = await db("cars").where({ id }).first();
 
-    res.json(car);
-  } catch (err) {
-    next(err);
-  }
-});
+//     res.json(car);
+//   } catch (err) {
+//     next(err);
+//   }
+// });
 
-router.post("/cars", async (req, res, next) => {
-  try {
-    const [id] = await db("cars").insert(req.body);
-    const newCar = await db("cars").where({ id }).first();
+// router.post("/cars", async (req, res, next) => {
+//   try {
+//     const [id] = await db("cars").insert(req.body);
+//     const newCar = await db("cars").where({ id }).first();
 
-    res.status(201).json(newCar);
-  } catch (err) {
-    next(err);
-  }
-});
+//     res.status(201).json(newCar);
+//   } catch (err) {
+//     next(err);
+//   }
+// });
 
 module.exports = router;

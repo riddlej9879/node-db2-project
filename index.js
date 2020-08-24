@@ -1,11 +1,13 @@
 const express = require("express");
 const carsRouter = require("./routers/car-router");
+const welcomeRouter = require("./routers/welcome-router");
 
 const server = express();
 const port = 5000;
 
 server.use(express.json());
-server.use(carsRouter);
+server.use("/cars", carsRouter);
+server.use("/welcome", welcomeRouter);
 
 server.use((err, req, res, next) => {
   console.log(err);
