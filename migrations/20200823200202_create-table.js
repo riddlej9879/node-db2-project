@@ -1,5 +1,5 @@
 exports.up = async function (knex) {
-  await knex.schema.createTable("fruits", (table) => {
+  await knex.schema.createTable("car-dealer", (table) => {
     // tanslates to '"id" INTERGER NOT NULL UNIQUE PRIMARY KEY'
     // tamle.integer("id").notNull().unique().primary()
     table.increments("id");

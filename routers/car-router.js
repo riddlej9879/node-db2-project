@@ -4,34 +4,72 @@ const db = require("../data/config");
 
 const router = express.Router();
 
-router.get("/cars", async (req, res, next) => {
+router.get("/", async (req, res, next) => {
   try {
-    res.json(await db("cars"));
+    res.json({
+      message: "Car-dealer",
+    });
   } catch (err) {
     next(err);
   }
 });
 
-// router.get("/cars/:id", async (req, res, next) => {
-//   try {
-//     const { id } = req.params;
-//     const car = await db("cars").where({ id }).first();
+router.get("/cars", async (req, res, next) => {
+  try {
+    res.status(200).json(await db("car-dealer"));
+  } catch (err) {
+    next(err);
+  }
+});
 
-//     res.json(car);
-//   } catch (err) {
-//     next(err);
-//   }
-// });
+router.get("/cars/:id", async (req, res, next) => {
+  try {
+    const id = req.params.id;
+    const car = await db("car-dealer").where({ id }).first();
 
-// router.post("/cars", async (req, res, next) => {
-//   try {
-//     const [id] = await db("cars").insert(req.body);
-//     const newCar = await db("cars").where({ id }).first();
+    res.status(200).json(car);
+  } catch (err) {
+    next(err);
+  }
+});
 
-//     res.status(201).json(newCar);
-//   } catch (err) {
-//     next(err);
-//   }
-// });
+router.post("/cars", async (req, res, next) => {
+  const newCar = {
+    vin: req.body.vin,
+    make: req.body.make,
+    model: req.body.model,
+    mileage: req.body.mileage,
+    transmission: req.body.transmission || null,
+    salvaged: req.body.salvaged || null,
+  };
+
+  db.insert(newCar)
+    .then(() => {
+      return res.status(201).json(newCar);
+    })
+    .catch((err) => {
+      return res
+        .status(500)
+        .json({ message: "Error creating new car", newCar });
+    });
+});
 
 module.exports = router;
+
+// router.post("/cars", (req, res) => {
+//   db("cars")
+//     .insert({
+//       vin: req.body.vin,
+//       make: req.body.make,
+//       model: req.body.model,
+//       mileage: req.body.mileage,
+//       transmission: req.body.transmission || null,
+//       salvaged: req.body.salvaged || null,
+//     })
+//     .then((id) => {
+//       res.status(201).json(id);
+//     })
+//     .catch((err) => {
+//       res.status(500).json({ message: "Failed to create car" });
+//     });
+// });

@@ -6,7 +6,7 @@ const server = express();
 const port = 5000;
 
 server.use(express.json());
-server.use("/cars", carsRouter);
+server.use("/car-dealer", carsRouter);
 server.use("/welcome", welcomeRouter);
 
 server.use((err, req, res, next) => {
